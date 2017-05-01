@@ -36,7 +36,7 @@ public abstract class BaseActivity extends Activity {
 			decor.addView(mStatusBar);
 		}
 		
-		if (Setting.getShowStatus() == false) {
+		if (Setting.getBoolean(Setting.KEY_SHOW_STATUS, false) == false) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			

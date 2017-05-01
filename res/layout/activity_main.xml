@@ -6,5 +6,55 @@
 	android:orientation="vertical"
 	android:background="@color/main_bg">
 
-</LinearLayout>
+	<LinearLayout
+		android:id="@+id/ll_btn"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:orientation="vertical">
 
+	</LinearLayout>
+
+	<HorizontalScrollView
+		android:id="@+id/hsv_key"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:background="#000000">
+
+		<FrameLayout
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent">
+
+			<LinearLayout
+				android:id="@+id/ll_white"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:orientation="horizontal">
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical">
+
+				<LinearLayout
+					android:id="@+id/ll_black"
+					android:layout_width="match_parent"
+					android:layout_height="0dp"
+					android:layout_weight="1"
+					android:orientation="horizontal">
+
+				</LinearLayout>
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dp"
+					android:layout_weight="1" />
+			</LinearLayout>
+
+		</FrameLayout>
+
+	</HorizontalScrollView>
+</LinearLayout>

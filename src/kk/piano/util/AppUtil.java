@@ -19,7 +19,7 @@ public class AppUtil {
 	public static int sStatusBarHeight = 0;
 
 	public static void init(Context context) {
-		if (sRes != null) {
+		if (sContext != null) {
 			return;
 		}
 

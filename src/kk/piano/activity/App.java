@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import kk.piano.util.AppUtil;
 import kk.piano.util.Setting;
+import kk.piano.util.ToneUtil;
 
 public class App extends Application {
 	private static Toast sToast;
@@ -21,6 +22,7 @@ public class App extends Application {
 		
 		AppUtil.init(this);
 		Setting.init(this);
+		ToneUtil.init(this);
 	}
 
 	public static void showToast(int resId, Object... args) {
