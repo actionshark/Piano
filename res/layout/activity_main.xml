@@ -7,16 +7,74 @@
 	android:background="@color/main_bg">
 
 	<LinearLayout
-		android:id="@+id/ll_btn"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1"
 		android:orientation="vertical">
 
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:orientation="horizontal">
+
+			<SeekBar
+				android:id="@+id/sb_volume"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1" />
+
+			<View
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:orientation="horizontal">
+
+			<TextView
+				android:id="@+id/tv_file"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:layout_margin="5dp"
+				android:background="@drawable/btn_bar"
+				android:textSize="20sp"
+				android:textColor="@color/main_text"
+				android:gravity="center" />
+
+			<TextView
+				android:id="@+id/tv_play_type"
+				android:layout_width="140dp"
+				android:layout_height="match_parent"
+				android:layout_margin="5dp"
+				android:background="@drawable/btn_bar"
+				android:textSize="20sp"
+				android:textColor="@color/main_text"
+				android:gravity="center" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/ll_btn"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:orientation="horizontal">
+
+
+
+		</LinearLayout>
+
 	</LinearLayout>
 
-	<HorizontalScrollView
-		android:id="@+id/hsv_key"
+	<kk.piano.view.KeyScrollView
+		android:id="@+id/ksv_key"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1"
@@ -56,5 +114,5 @@
 
 		</FrameLayout>
 
-	</HorizontalScrollView>
+	</kk.piano.view.KeyScrollView>
 </LinearLayout>

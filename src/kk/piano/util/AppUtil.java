@@ -43,15 +43,6 @@ public class AppUtil {
 		}
 	}
 
-	@Deprecated
-	public static Context getContext() {
-		return sContext;
-	}
-
-	public static Resources getRes() {
-		return sRes;
-	}
-
 	public static int getId(String type, String name) {
 		return sRes.getIdentifier(name, type, sContext.getPackageName());
 	}

@@ -3,4 +3,14 @@
 
 	<string name="app_name">Piano</string>
 
+	<string name="pt_free">Free</string>
+	<string name="pt_auto">Auto</string>
+	<string name="pt_follow">Follow</string>
+	<string name="pt_edit">Edit</string>
+
+	<string name="wd_select_play_type">Select A Play Type</string>
+
+
+	<string name="err_file_reading_error">File Reading Error!</string>
+
 </resources>

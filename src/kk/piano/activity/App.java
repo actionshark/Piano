@@ -3,8 +3,8 @@ package kk.piano.activity;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.widget.Toast;
-
 import kk.piano.util.AppUtil;
+import kk.piano.util.AudioUtil;
 import kk.piano.util.Setting;
 import kk.piano.util.ToneUtil;
 
@@ -22,6 +22,7 @@ public class App extends Application {
 		
 		AppUtil.init(this);
 		Setting.init(this);
+		AudioUtil.init(this);
 		ToneUtil.init(this);
 	}
 
