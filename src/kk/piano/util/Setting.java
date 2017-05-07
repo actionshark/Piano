@@ -13,6 +13,7 @@ public class Setting {
 	public static final String KEY_KEY_SCROLL_X = "key_key_scroll_x";
 	public static final String KEY_PLAY_INTER = "key_play_inter";
 	public static final String KEY_PLAY_TYPE = "key_play_type";
+	public static final String KEY_SHOW_HINT = "key_show_hint";
 	public static final String KEY_SHOW_STATUS = "show_status";
 	public static final String KEY_VOLUME = "key_volume";
 	public static final String KEY_WIDTH = "key_width";

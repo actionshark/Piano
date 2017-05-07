@@ -173,21 +173,26 @@ public class MainActivity extends BaseActivity {
 									
 									if (mPlayType == PlayType.Follow) {
 										mNoteIndex = 0;
+										
+										Note find = null;
 
 										while (mNoteIndex < mNoteList.size()) {
 											Note note = mNoteList.get(mNoteIndex);
 											if (note.id > 0) {
+												find = note;
 												break;
 											}
 											
 											mNoteIndex++;
 										}
 										
-										if (mNoteIndex < mNoteList.size()) {
+										if (find == null) {
+											mNoteIndex = 0;
+											setKeyImage(-1, KeyStatus.Normal);
+										} else if (Setting.getBoolean(Setting.KEY_SHOW_HINT, true)) {
 											Note note = mNoteList.get(mNoteIndex);
 											setKeyImage(note.id - 1, KeyStatus.Highlight);
 										} else {
-											mNoteIndex = 0;
 											setKeyImage(-1, KeyStatus.Normal);
 										}
 									} else {
@@ -233,7 +238,21 @@ public class MainActivity extends BaseActivity {
 						setKeyImage(-1, KeyStatus.Normal);
 					}
 				} else if (mPlayType == PlayType.Follow) {
-
+					boolean hint = !Setting.getBoolean(Setting.KEY_SHOW_HINT, true);
+					Setting.putBoolean(Setting.KEY_SHOW_HINT, hint);
+					
+					if (hint) {
+						if (mNoteIndex >= 0 && mNoteIndex < mNoteList.size()) {
+							Note note = mNoteList.get(mNoteIndex);
+							setKeyImage(note.id - 1, KeyStatus.Highlight);
+						}
+						
+						mIvButton.setImageResource(R.drawable.tick);
+					} else {
+						setKeyImage(-1, KeyStatus.Normal);
+						
+						mIvButton.setImageResource(R.drawable.cross);
+					}
 				} else if (mPlayType == PlayType.Edit) {
 					if (mFileName == null) {
 						App.showToast(R.string.mg_select_file_hint);
@@ -481,36 +500,39 @@ public class MainActivity extends BaseActivity {
 						onKeyClick(iv, note);
 					} else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
 						if (mPlayType == PlayType.Follow) {
+							Note find = null;
+							
 							while (mNoteIndex < mNoteList.size()) {
 								Note note = mNoteList.get(mNoteIndex);
 								if (note.id > 0) {
+									find = note;
 									break;
 								}
 								
 								mNoteIndex++;
 							}
 							
-							if (mNoteIndex < mNoteList.size()) {
-								Note note = mNoteList.get(mNoteIndex);
-								setKeyImage(note.id - 1, KeyStatus.Highlight);
-							} else {
+							if (find == null)  {
 								mNoteIndex = 0;
 								while (mNoteIndex < mNoteList.size()) {
 									Note note = mNoteList.get(mNoteIndex);
 									if (note.id > 0) {
+										find = note;
 										break;
 									}
 									
 									mNoteIndex++;
 								}
-								
-								if (mNoteIndex < mNoteList.size()) {
-									Note note = mNoteList.get(mNoteIndex);
-									setKeyImage(note.id - 1, KeyStatus.Highlight);
-								} else {
-									mNoteIndex = 0;
-									setKeyImage(-1, KeyStatus.Normal);
-								}
+							}
+							
+							if (find == null) {
+								mNoteIndex = 0;
+								setKeyImage(-1, KeyStatus.Normal);
+							} else if (Setting.getBoolean(Setting.KEY_SHOW_HINT, true)) {
+								Note note = mNoteList.get(mNoteIndex);
+								setKeyImage(note.id - 1, KeyStatus.Highlight);
+							} else {
+								setKeyImage(-1, KeyStatus.Normal);
 							}
 							
 							displayNotes();
@@ -586,9 +608,13 @@ public class MainActivity extends BaseActivity {
 			mIvButton2.setVisibility(View.GONE);
 			mTvPlayType.setText(R.string.pt_auto);
 		} else if (mPlayType == PlayType.Follow) {
-			mIvButton.setVisibility(View.GONE);
+			boolean hint = Setting.getBoolean(Setting.KEY_SHOW_HINT, true);
+			mIvButton.setImageResource(hint ? R.drawable.tick : R.drawable.cross);
+			mIvButton.setVisibility(View.VISIBLE);
 			mIvButton2.setVisibility(View.GONE);
 			mTvPlayType.setText(R.string.pt_follow);
+			
+			Note find = null;
 			
 			if (mNoteIndex < 0) {
 				mNoteIndex = 0;
@@ -597,33 +623,34 @@ public class MainActivity extends BaseActivity {
 			while (mNoteIndex < mNoteList.size()) {
 				Note note = mNoteList.get(mNoteIndex);
 				if (note.id > 0) {
+					find = note;
 					break;
 				}
 				
 				mNoteIndex++;
 			}
 			
-			if (mNoteIndex >= 0 && mNoteIndex < mNoteList.size()) {
-				Note note = mNoteList.get(mNoteIndex);
-				setKeyImage(note.id - 1, KeyStatus.Highlight);
-			} else {
+			if (find == null) {
 				mNoteIndex = 0;
 				while (mNoteIndex < mNoteList.size()) {
 					Note note = mNoteList.get(mNoteIndex);
 					if (note.id > 0) {
+						find = note;
 						break;
 					}
 					
 					mNoteIndex++;
 				}
-				
-				if (mNoteIndex >= 0 && mNoteIndex < mNoteList.size()) {
-					Note note = mNoteList.get(mNoteIndex);
-					setKeyImage(note.id - 1, KeyStatus.Highlight);
-				} else {
-					mNoteIndex = 0;
-					setKeyImage(-1, KeyStatus.Normal);
-				}
+			}
+			
+			if (find == null) {
+				mNoteIndex = 0;
+				setKeyImage(-1, KeyStatus.Normal);
+			} else if (Setting.getBoolean(Setting.KEY_SHOW_HINT, true)) {
+				Note note = mNoteList.get(mNoteIndex);
+				setKeyImage(note.id - 1, KeyStatus.Highlight);
+			} else {
+				setKeyImage(-1, KeyStatus.Normal);
 			}
 			
 			displayNotes();
@@ -662,14 +689,47 @@ public class MainActivity extends BaseActivity {
 		if (mPlayType == PlayType.Follow) {
 			if (mNoteIndex > 0) {
 				mNoteIndex--;
+			} else {
+				mNoteIndex = mNoteList.size() - 1;
+			}
 				
-				if (mNoteIndex < mNoteList.size()) {
-					Note note = mNoteList.get(mNoteIndex);
-					setKeyImage(note.id - 1, KeyStatus.Highlight);
+			Note find = null;
+			
+			while (mNoteIndex >= 0) {
+				Note note = mNoteList.get(mNoteIndex);
+				if (note.id > 0) {
+					find = note;
+					break;
 				}
 				
-				displayNotes();
+				mNoteIndex--;
 			}
+			
+			if (find == null) {
+				mNoteIndex = mNoteList.size() - 1;
+				
+				while (mNoteIndex >= 0) {
+					Note note = mNoteList.get(mNoteIndex);
+					if (note.id > 0) {
+						find = note;
+						break;
+					}
+					
+					mNoteIndex--;
+				}
+			}
+			
+			if (find == null) {
+				mNoteIndex = 0;
+				setKeyImage(-1, KeyStatus.Normal);
+			} else if (Setting.getBoolean(Setting.KEY_SHOW_HINT, true)) {
+				Note note = mNoteList.get(mNoteIndex);
+				setKeyImage(note.id - 1, KeyStatus.Highlight);
+			} else {
+				setKeyImage(-1, KeyStatus.Normal);
+			}
+			
+			displayNotes();
 		} else {
 			if (mNoteIndex >= 0) {
 				mNoteIndex--;
@@ -679,18 +739,54 @@ public class MainActivity extends BaseActivity {
 	}
 	
 	private void moveRight() {
-		if (mNoteIndex + 1 < mNoteList.size()) {
-			mNoteIndex++;
+		if (mPlayType == PlayType.Follow) {
+			if (mNoteIndex + 1 < mNoteList.size()) {
+				mNoteIndex++;
+			} else {
+				mNoteIndex = 0;
+			}
 			
-			if (mPlayType == PlayType.Follow) {
+			Note find = null;
+			
+			while (mNoteIndex < mNoteList.size()) {
+				Note note = mNoteList.get(mNoteIndex);
+				if (note.id > 0) {
+					find = note;
+					break;
+				}
+				
+				mNoteIndex++;
+			}
+			
+			if (find == null) {
+				mNoteIndex = 0;
+				while (mNoteIndex < mNoteList.size()) {
+					Note note = mNoteList.get(mNoteIndex);
+					if (note.id > 0) {
+						find = note;
+						break;
+					}
+					
+					mNoteIndex++;
+				}
+			}
+			
+			if (find == null) {
+				mNoteIndex = 0;
+				setKeyImage(-1, KeyStatus.Normal);
+			} else if (Setting.getBoolean(Setting.KEY_SHOW_HINT, true)) {
 				Note note = mNoteList.get(mNoteIndex);
 				setKeyImage(note.id - 1, KeyStatus.Highlight);
-			} else if (mPlayType == PlayType.Edit) {
-				Note note = mNoteList.get(mNoteIndex);
-				AudioUtil.play(note.file);
+			} else {
+				setKeyImage(-1, KeyStatus.Normal);
 			}
 			
 			displayNotes();
+		} else {
+			if (mNoteIndex + 1 < mNoteList.size()) {
+				mNoteIndex++;
+				displayNotes();
+			}
 		}
 	}
 	
