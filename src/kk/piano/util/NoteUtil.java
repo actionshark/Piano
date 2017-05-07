@@ -11,8 +11,8 @@ import android.content.Context;
 import android.content.res.AssetManager;
 
 public class NoteUtil {
-	public static final long INTER_MIN = 50;
-	public static final long INTER_MAX = 3000;
+	public static final long INTER_MIN = 100;
+	public static final long INTER_MAX = 1500;
 	public static final long INTER_DEF = 300;
 	
 	public static class Note {
@@ -26,6 +26,8 @@ public class NoteUtil {
 	}
 
 	private static List<Note> sList;
+	
+	private static Note sDef;
 
 	static final String KEY_ID = "id";
 	static final String KEY_STORE = "store";
@@ -70,6 +72,14 @@ public class NoteUtil {
 		} catch (Exception e) {
 			Logger.print(null, e);
 		}
+		
+		sDef = new Note();
+		sDef.id = 0;
+		sDef.store = '0';
+		sDef.top = 0;
+		sDef.center = "0";
+		sDef.bottom = 0;
+		sDef.isWhite = true;
 	}
 
 	public static int size() {
@@ -93,7 +103,13 @@ public class NoteUtil {
 	}
  
 	public static Note getNodeById(int id) {
-		return sList.get(id);
+		Note note = sList.get(id);
+		
+		if (note == null) {
+			note = sDef;
+		}
+		
+		return note;
 	}
 
 	public static Note getNodeByStore(char ch) {
@@ -103,7 +119,7 @@ public class NoteUtil {
 			}
 		}
 
-		return sList.get(0);
+		return sDef;
 	}
 	
 	public static List<Note> toNotes(String str) {
