@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	android:background="@color/main_bg">
+	android:background="#cccccc">
 
 	<TextView
 		android:id="@+id/tv_message"
@@ -15,8 +15,8 @@
 		android:gravity="center"
 		android:layout_marginLeft="15dp"
 		android:layout_marginRight="15dp"
-		android:textSize="20sp"
-		android:textColor="@color/main_text" />
+		android:textSize="23sp"
+		android:textColor="#000000" />
 
 	<LinearLayout
 		android:id="@+id/ll_button"
@@ -32,7 +32,7 @@
 			android:gravity="center"
 			android:background="@drawable/btn_bar"
 			android:textSize="15sp"
-			android:textColor="@color/main_text" />
+			android:textColor="#000000" />
 
 		<TextView
 			android:id="@+id/tv_btn_1"
@@ -43,7 +43,7 @@
 			android:layout_marginLeft="3dp"
 			android:background="@drawable/btn_bar"
 			android:textSize="15sp"
-			android:textColor="@color/main_text" />
+			android:textColor="#000000" />
 
 		<TextView
 			android:id="@+id/tv_btn_2"
@@ -54,7 +54,7 @@
 			android:layout_marginLeft="3dp"
 			android:background="@drawable/btn_bar"
 			android:textSize="15sp"
-			android:textColor="@color/main_text" />
+			android:textColor="#000000" />
 
 		<TextView
 			android:id="@+id/tv_btn_3"
@@ -65,7 +65,7 @@
 			android:layout_marginLeft="3dp"
 			android:background="@drawable/btn_bar"
 			android:textSize="15sp"
-			android:textColor="@color/main_text" />
+			android:textColor="#000000" />
 
 		<TextView
 			android:id="@+id/tv_btn_4"
@@ -76,7 +76,7 @@
 			android:layout_marginLeft="3dp"
 			android:background="@drawable/btn_bar"
 			android:textSize="15sp"
-			android:textColor="@color/main_text" />
+			android:textColor="#000000" />
 
 	</LinearLayout>
 

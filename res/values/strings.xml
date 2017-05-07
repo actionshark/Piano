@@ -3,14 +3,32 @@
 
 	<string name="app_name">Piano</string>
 
-	<string name="pt_free">Free</string>
+	<string name="err_create_file_failed">Create File Failed!</string>
+	<string name="err_create_file_success">Create File Success!</string>
+	<string name="err_delete_file_failed">Delete File Failed!</string>
+	<string name="err_delete_file_success">Delete File Success!</string>
+	<string name="err_file_exists">File Already Exists!</string>
+	<string name="err_file_name_illegal_char">File name has illegal char!</string>
+	<string name="err_file_name_length_illegal">File name length must be %1$d-%2$d!</string>
+	<string name="err_read_file_error">Read File Error!</string>
+	<string name="err_rename_file_failed">Rename File Failed!</string>
+	<string name="err_rename_file_success">Rename File Success!</string>
+	<string name="err_write_file_failed">Write File Failed!</string>
+	<string name="err_write_file_success">Write File Success!</string>
+
+	<string name="mg_save_hint">Do you want to save?</string>
+	<string name="mg_keep_old_or_read_new">Keep Old or Read New?</string>
+	<string name="mg_select_file_hint">Please Select A File</string>
+	<string name="mg_select_play_type">Select A Play Type</string>
+
 	<string name="pt_auto">Auto</string>
-	<string name="pt_follow">Follow</string>
 	<string name="pt_edit">Edit</string>
+	<string name="pt_follow">Follow</string>
+	<string name="pt_free">Free</string>
 
-	<string name="wd_select_play_type">Select A Play Type</string>
-
-
-	<string name="err_file_reading_error">File Reading Error!</string>
+	<string name="wd_cancel">Cancel</string>
+	<string name="wd_new">New</string>
+	<string name="wd_ok">OK</string>
+	<string name="wd_old">Old</string>
 
 </resources>

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout.LayoutParams;
 
-import kk.piano.R;
 import kk.piano.util.AppUtil;
 import kk.piano.util.Setting;
 
@@ -30,7 +29,7 @@ public abstract class BaseActivity extends Activity {
 				.getStatusBarHeight());
 			params.gravity = Gravity.TOP;
 			mStatusBar.setLayoutParams(params);
-			mStatusBar.setBackgroundColor(AppUtil.getColor(R.color.title_bg));
+			mStatusBar.setBackgroundColor(0xcccccc);
 
 			ViewGroup decor = (ViewGroup) getWindow().getDecorView();
 			decor.addView(mStatusBar);

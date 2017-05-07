@@ -28,8 +28,8 @@ public class SimpleDialog extends Dialog {
 
 		Window window = getWindow();
 		LayoutParams lp = window.getAttributes();
-		lp.width = Math.min(AppUtil.getPixcel(400), AppUtil.getScreenWidth() * 9 / 10);
-		lp.height = Math.min(AppUtil.getPixcel(300), AppUtil.getScreenHeight() * 8 / 10);
+		lp.width = Math.min(AppUtil.getPixcel(260), AppUtil.getScreenWidth() * 9 / 10);
+		lp.height = Math.min(AppUtil.getPixcel(200), AppUtil.getScreenHeight() * 9 / 10);
 		window.setAttributes(lp);
 
 		mTvMessage = (TextView) findViewById(R.id.tv_message);
