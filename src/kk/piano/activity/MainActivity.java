@@ -18,11 +18,17 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stone.app.Res;
+import com.stone.app.Setting;
+import com.stone.log.Logger;
+import com.stone.thread.ThreadHandler;
+import com.stone.thread.ThreadParams;
+import com.stone.thread.ThreadUtil;
+
 import kk.piano.R;
-import kk.piano.util.AppUtil;
 import kk.piano.util.AudioUtil;
+import kk.piano.util.Const;
 import kk.piano.util.FileUtil;
-import kk.piano.util.Setting;
 import kk.piano.util.NoteUtil;
 import kk.piano.util.Const.PlayType;
 import kk.piano.util.NoteUtil.Note;
@@ -55,7 +61,7 @@ public class MainActivity extends BaseActivity {
 	}
 	private NoteGrid[] mNgNoteGrids = new NoteGrid[15];
 	private int mNgCursor = mNgNoteGrids.length / 2;
-	private Runnable mNgRunnable;
+	private ThreadHandler mNgHandler;
 	
 	private List<Note> mNoteList = new ArrayList<Note>();
 	private int mNoteIndex = -1;
@@ -189,7 +195,7 @@ public class MainActivity extends BaseActivity {
 										if (find == null) {
 											mNoteIndex = 0;
 											setKeyImage(-1, KeyStatus.Normal);
-										} else if (Setting.getBoolean(Setting.KEY_SHOW_HINT, true)) {
+										} else if (Setting.getInstance().getBoolean(Const.KEY_SHOW_HINT, true)) {
 											Note note = mNoteList.get(mNoteIndex);
 											setKeyImage(note.id - 1, KeyStatus.Highlight);
 										} else {
@@ -238,8 +244,8 @@ public class MainActivity extends BaseActivity {
 						setKeyImage(-1, KeyStatus.Normal);
 					}
 				} else if (mPlayType == PlayType.Follow) {
-					boolean hint = !Setting.getBoolean(Setting.KEY_SHOW_HINT, true);
-					Setting.putBoolean(Setting.KEY_SHOW_HINT, hint);
+					boolean hint = !Setting.getInstance().getBoolean(Const.KEY_SHOW_HINT, true);
+					Setting.getInstance().setBoolean(Const.KEY_SHOW_HINT, hint);
 					
 					if (hint) {
 						if (mNoteIndex >= 0 && mNoteIndex < mNoteList.size()) {
@@ -339,15 +345,15 @@ public class MainActivity extends BaseActivity {
 					
 					moveLeft();
 					
-					mNgRunnable = AppUtil.runOnUiThread(new Runnable() {
+					mNgHandler = ThreadUtil.run(new ThreadParams(true, new Runnable() {
 						@Override
 						public void run() {
 							moveLeft();
 						}
-					}, 500, 50);
+					}, 500, 50));
 				} else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
 					ivLeft.setBackgroundResource(R.drawable.bg_bar_nor);
-					AppUtil.removeUiThread(mNgRunnable);
+					mNgHandler.cancel();
 				}
 				
 				return true;
@@ -366,15 +372,15 @@ public class MainActivity extends BaseActivity {
 					
 					moveRight();
 					
-					mNgRunnable = AppUtil.runOnUiThread(new Runnable() {
+					mNgHandler = ThreadUtil.run(new ThreadParams(true, new Runnable() {
 						@Override
 						public void run() {
 							moveRight();
 						}
-					}, 500, 50);
+					}, 500, 50));
 				} else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
 					ivRight.setBackgroundResource(R.drawable.bg_bar_nor);
-					AppUtil.removeUiThread(mNgRunnable);
+					mNgHandler.cancel();
 				}
 				
 				return true;
@@ -385,7 +391,7 @@ public class MainActivity extends BaseActivity {
 		LayoutInflater li = getLayoutInflater();
 		
 		LayoutParams lp = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
-		lp.leftMargin = lp.rightMargin = AppUtil.getPixcel(1);
+		lp.leftMargin = lp.rightMargin = Res.getInstance().getPixcel(1f);
 		
 		for (int i = 0; i < mNgNoteGrids.length; i++) {
 			View view = li.inflate(R.layout.grid_note, null);
@@ -426,24 +432,24 @@ public class MainActivity extends BaseActivity {
 		mIvKeys = new ImageView[NoteUtil.size()];
 		
 		final KeyScrollView ksvKey = (KeyScrollView) findViewById(R.id.ksv_key);
-		AppUtil.runOnUiThread(new Runnable() {
+		ThreadUtil.run(new ThreadParams(true, new Runnable() {
 			@Override
 			public void run() {
-				ksvKey.scrollTo(Setting.getInt(Setting.KEY_KEY_SCROLL_X, 0), 0);
+				ksvKey.scrollTo(Setting.getInstance().getInt(Const.KEY_KEY_SCROLL_X, 0), 0);
 			}
-		}, 100);
+		}, 100));
 		ksvKey.setOnScrollListener(new OnScrollListener() {
 			@Override
 			public void onScrollChanged(int x, int y, int oldx, int oldy) {
-				Setting.putInt(Setting.KEY_KEY_SCROLL_X, x);
+				Setting.getInstance().setInt(Const.KEY_KEY_SCROLL_X, x);
 			}
 		});
 		
 		ViewGroup llWhite = (ViewGroup) ksvKey.findViewById(R.id.ll_white);
 		ViewGroup llBlack = (ViewGroup) ksvKey.findViewById(R.id.ll_black);
 		
-		LayoutParams wp = new LayoutParams(AppUtil.getPixcel(
-			Setting.getFloat(Setting.KEY_WIDTH, 60)),
+		LayoutParams wp = new LayoutParams(Res.getInstance().getPixcel(
+			Setting.getInstance().getFloat(Const.KEY_WIDTH, 60)),
 			LayoutParams.MATCH_PARENT);
 		wp.topMargin = 1;
 		wp.bottomMargin = 1;
@@ -528,7 +534,7 @@ public class MainActivity extends BaseActivity {
 							if (find == null) {
 								mNoteIndex = 0;
 								setKeyImage(-1, KeyStatus.Normal);
-							} else if (Setting.getBoolean(Setting.KEY_SHOW_HINT, true)) {
+							} else if (Setting.getInstance().getBoolean(Const.KEY_SHOW_HINT, true)) {
 								Note note = mNoteList.get(mNoteIndex);
 								setKeyImage(note.id - 1, KeyStatus.Highlight);
 							} else {
@@ -558,14 +564,14 @@ public class MainActivity extends BaseActivity {
 			llBlack.addView(tv);
 		}
 		
-		AppUtil.runOnUiThread(mPlayRunnable, 1000, 50);
+		ThreadUtil.run(new ThreadParams(true, mPlayRunnable, 1000, 50));
 
-		String filename = Setting.getString(Setting.KEY_FILE_NAME);
+		String filename = Setting.getInstance().getString(Const.KEY_FILE_NAME);
 		setFileName(filename);
 		String content = FileUtil.readFile(filename);
 		mNoteList = NoteUtil.toNotes(content);
 
-		int type = Setting.getInt(Setting.KEY_PLAY_TYPE, PlayType.Free.ordinal());
+		int type = Setting.getInstance().getInt(Const.KEY_PLAY_TYPE, PlayType.Free.ordinal());
 		PlayType pt = PlayType.values()[type];
 		
 		if (pt == PlayType.Follow) {
@@ -589,13 +595,13 @@ public class MainActivity extends BaseActivity {
 			mFileName = filename;
 		}
 		
-		Setting.putString(Setting.KEY_FILE_NAME, mFileName);
+		Setting.getInstance().setString(Const.KEY_FILE_NAME, mFileName);
 		mTvFileName.setText(mFileName);
 	}
 	
 	private void setPlayType(PlayType pt) {
 		mPlayType = pt;
-		Setting.putInt(Setting.KEY_PLAY_TYPE, mPlayType.ordinal());
+		Setting.getInstance().setInt(Const.KEY_PLAY_TYPE, mPlayType.ordinal());
 		
 		if (mPlayType == PlayType.Free) {
 			mIvButton.setVisibility(View.GONE);
@@ -608,7 +614,7 @@ public class MainActivity extends BaseActivity {
 			mIvButton2.setVisibility(View.GONE);
 			mTvPlayType.setText(R.string.pt_auto);
 		} else if (mPlayType == PlayType.Follow) {
-			boolean hint = Setting.getBoolean(Setting.KEY_SHOW_HINT, true);
+			boolean hint = Setting.getInstance().getBoolean(Const.KEY_SHOW_HINT, true);
 			mIvButton.setImageResource(hint ? R.drawable.tick : R.drawable.cross);
 			mIvButton.setVisibility(View.VISIBLE);
 			mIvButton2.setVisibility(View.GONE);
@@ -646,7 +652,7 @@ public class MainActivity extends BaseActivity {
 			if (find == null) {
 				mNoteIndex = 0;
 				setKeyImage(-1, KeyStatus.Normal);
-			} else if (Setting.getBoolean(Setting.KEY_SHOW_HINT, true)) {
+			} else if (Setting.getInstance().getBoolean(Const.KEY_SHOW_HINT, true)) {
 				Note note = mNoteList.get(mNoteIndex);
 				setKeyImage(note.id - 1, KeyStatus.Highlight);
 			} else {
@@ -678,9 +684,9 @@ public class MainActivity extends BaseActivity {
 			} else {
 				Note note = mNoteList.get(index);
 				
-				ng.top.setImageResource(AppUtil.getId("drawable", "note_" + note.top));
+				ng.top.setImageResource(Res.getInstance().getDrawableId("note_" + note.top));
 				ng.center.setText(note.center);
-				ng.bottom.setImageResource(AppUtil.getId("drawable", "note_" + note.bottom));
+				ng.bottom.setImageResource(Res.getInstance().getDrawableId("note_" + note.bottom));
 			}
 		}
 	}
@@ -722,7 +728,7 @@ public class MainActivity extends BaseActivity {
 			if (find == null) {
 				mNoteIndex = 0;
 				setKeyImage(-1, KeyStatus.Normal);
-			} else if (Setting.getBoolean(Setting.KEY_SHOW_HINT, true)) {
+			} else if (Setting.getInstance().getBoolean(Const.KEY_SHOW_HINT, true)) {
 				Note note = mNoteList.get(mNoteIndex);
 				setKeyImage(note.id - 1, KeyStatus.Highlight);
 			} else {
@@ -774,7 +780,7 @@ public class MainActivity extends BaseActivity {
 			if (find == null) {
 				mNoteIndex = 0;
 				setKeyImage(-1, KeyStatus.Normal);
-			} else if (Setting.getBoolean(Setting.KEY_SHOW_HINT, true)) {
+			} else if (Setting.getInstance().getBoolean(Const.KEY_SHOW_HINT, true)) {
 				Note note = mNoteList.get(mNoteIndex);
 				setKeyImage(note.id - 1, KeyStatus.Highlight);
 			} else {

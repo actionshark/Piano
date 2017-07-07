@@ -10,6 +10,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stone.app.App;
+import com.stone.log.Logger;
+
 import kk.piano.R;
 
 public class FileUtil {
@@ -80,7 +83,7 @@ public class FileUtil {
 			Logger.print(null, e);
 		}
 		
-		return AppUtil.getString(R.string.err_write_file_failed);
+		return App.getInstance().getResources().getString(R.string.err_write_file_failed);
 	}
 	
 	public static String readFile(String filename) {
@@ -118,8 +121,9 @@ public class FileUtil {
 	
 	public static String checkName(String name) {
 		if (name == null || name.length() < LEN_MIN || name.length() > LEN_MAX) {
-			return AppUtil.getString(R.string.err_file_name_length_illegal,
-				LEN_MIN, LEN_MAX);
+			return App.getInstance().getResources().getString(
+					R.string.err_file_name_length_illegal,
+					LEN_MIN, LEN_MAX);
 		}
 		
 		for (int i = 0; i < name.length(); i++) {
@@ -127,7 +131,8 @@ public class FileUtil {
 			
 			for (char illegal : ILLEGAL_FILE_NAME_CHAR) {
 				if (ch == illegal) {
-					return AppUtil.getString(R.string.err_file_name_illegal_char);
+					return App.getInstance().getResources().getString(
+							R.string.err_file_name_illegal_char);
 				}
 			}
 		}
@@ -148,7 +153,8 @@ public class FileUtil {
 			Logger.print(null, e);
 		}
 		
-		return AppUtil.getString(R.string.err_create_file_failed);
+		return App.getInstance().getResources().getString(
+				R.string.err_create_file_failed);
 	}
 	
 	public static String deleteFile(String name) {
@@ -160,7 +166,8 @@ public class FileUtil {
 			Logger.print(null, e);
 		}
 		
-		return AppUtil.getString(R.string.err_delete_file_failed);
+		return App.getInstance().getResources().getString(
+				R.string.err_delete_file_failed);
 	}
 	
 	public static String renameFile(String oldName, String newName) {
@@ -175,6 +182,7 @@ public class FileUtil {
 			Logger.print(null, e);
 		}
 		
-		return AppUtil.getString(R.string.err_rename_file_failed);
+		return App.getInstance().getResources().getString(
+				R.string.err_rename_file_failed);
 	}
 }

@@ -1,5 +1,7 @@
 package kk.piano.view;
 
+import com.stone.app.Res;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,7 +12,6 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.EditText;
 
 import kk.piano.R;
-import kk.piano.util.AppUtil;
 import kk.piano.view.IDialogClickListener.ClickType;
 
 public class InputDialog extends Dialog {
@@ -28,8 +29,8 @@ public class InputDialog extends Dialog {
 
 		Window window = getWindow();
 		LayoutParams lp = window.getAttributes();
-		lp.width = Math.min(AppUtil.getPixcel(300), AppUtil.getScreenWidth() * 9 / 10);
-		lp.height = Math.min(AppUtil.getPixcel(200), AppUtil.getScreenHeight() * 8 / 10);
+		lp.width = Math.min(Res.getInstance().getPixcel(300), Res.getInstance().getScreenWidth() * 9 / 10);
+		lp.height = Math.min(Res.getInstance().getPixcel(200), Res.getInstance().getScreenHeight() * 8 / 10);
 		window.setAttributes(lp);
 
 		mEtInput = (EditText) findViewById(R.id.et_input);

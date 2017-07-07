@@ -7,6 +7,10 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.stone.app.Res;
+import com.stone.app.Setting;
+import com.stone.log.Logger;
+
 import android.content.Context;
 import android.content.res.AssetManager;
 
@@ -64,7 +68,7 @@ public class NoteUtil {
 				note.bottom = jo.getInt(KEY_BOTTOM);
 				note.isWhite = note.center.length() == 1;
 
-				int resId = AppUtil.getId("raw", jo.getString(KEY_FILE));
+				int resId = Res.getInstance().getRawId(jo.getString(KEY_FILE));
 				note.file = AudioUtil.load(context, resId);
 
 				sList.add(note);
@@ -87,11 +91,11 @@ public class NoteUtil {
 	}
 	
 	public static long getInter() {
-		return Setting.getLong(Setting.KEY_PLAY_INTER, INTER_DEF);
+		return Setting.getInstance().getLong(Const.KEY_PLAY_INTER, INTER_DEF);
 	}
 	
 	public static void setInter(long inter) {
-		Setting.putLong(Setting.KEY_PLAY_INTER, inter);
+		Setting.getInstance().setLong(Const.KEY_PLAY_INTER, inter);
 	}
 	
 	public static int inter2Progress(long inter) {

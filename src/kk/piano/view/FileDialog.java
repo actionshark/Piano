@@ -9,10 +9,11 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import com.stone.app.Res;
+
 import kk.piano.R;
 import kk.piano.activity.App;
 import kk.piano.adapter.FileAdapter;
-import kk.piano.util.AppUtil;
 import kk.piano.util.FileUtil;
 
 public class FileDialog extends Dialog {
@@ -32,8 +33,8 @@ public class FileDialog extends Dialog {
 		
 		Window window = getWindow();
 		LayoutParams lp = window.getAttributes();
-		lp.width = Math.min(AppUtil.getPixcel(300), AppUtil.getScreenWidth() * 9 / 10);
-		lp.height = Math.min(AppUtil.getPixcel(330), AppUtil.getScreenHeight() * 9 / 10);
+		lp.width = Math.min(Res.getInstance().getPixcel(300), Res.getInstance().getScreenWidth() * 9 / 10);
+		lp.height = Math.min(Res.getInstance().getPixcel(330), Res.getInstance().getScreenHeight() * 9 / 10);
 		window.setAttributes(lp);
 		
 		setCanceledOnTouchOutside(true);

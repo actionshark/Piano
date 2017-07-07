@@ -1,13 +1,13 @@
 package kk.piano.activity;
 
+import com.stone.app.Setting;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.widget.Toast;
 
-import kk.piano.util.AppUtil;
 import kk.piano.util.AudioUtil;
 import kk.piano.util.FileUtil;
-import kk.piano.util.Setting;
 import kk.piano.util.NoteUtil;
 
 public class App extends Application {
@@ -22,15 +22,16 @@ public class App extends Application {
 		sToast.setText("");
 		sToast.setDuration(Toast.LENGTH_SHORT);
 		
-		AppUtil.init(this);
-		Setting.init(this);
+		com.stone.app.App.getInstance().onApplicationCreate(this);
+		Setting.setInstance("setting");
+		
 		AudioUtil.init(this);
 		NoteUtil.init(this);
 		FileUtil.init(this);
 	}
 
 	public static void showToast(int resId, Object... args) {
-		sToast.setText(AppUtil.getString(resId, args));
+		sToast.setText(com.stone.app.App.getInstance().getResources().getString(resId, args));
 		sToast.show();
 	}
 

@@ -1,5 +1,8 @@
 package kk.piano.view;
 
+import com.stone.app.App;
+import com.stone.app.Res;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +12,6 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.TextView;
 
 import kk.piano.R;
-import kk.piano.util.AppUtil;
 import kk.piano.view.IDialogClickListener.ClickType;
 
 public class SimpleDialog extends Dialog {
@@ -28,14 +30,14 @@ public class SimpleDialog extends Dialog {
 
 		Window window = getWindow();
 		LayoutParams lp = window.getAttributes();
-		lp.width = Math.min(AppUtil.getPixcel(260), AppUtil.getScreenWidth() * 9 / 10);
-		lp.height = Math.min(AppUtil.getPixcel(200), AppUtil.getScreenHeight() * 9 / 10);
+		lp.width = Math.min(Res.getInstance().getPixcel(260), Res.getInstance().getScreenWidth() * 9 / 10);
+		lp.height = Math.min(Res.getInstance().getPixcel(200), Res.getInstance().getScreenHeight() * 9 / 10);
 		window.setAttributes(lp);
 
 		mTvMessage = (TextView) findViewById(R.id.tv_message);
 
 		for (int i = 0; i < mTvButtons.length; i++) {
-			int id = AppUtil.getId("id", "tv_btn_" + i);
+			int id = Res.getInstance().getIdId("tv_btn_" + i);
 			mTvButtons[i] = (TextView) findViewById(id);
 
 			final int index = i;
@@ -73,7 +75,7 @@ public class SimpleDialog extends Dialog {
 			if (i < btns.length) {
 				Object btn = btns[i];
 				if (btn instanceof Integer) {
-					btn = AppUtil.getString((Integer) btn);
+					btn = App.getInstance().getResources().getString((Integer) btn);
 				}
 
 				mTvButtons[i].setText(String.valueOf(btn));

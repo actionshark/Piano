@@ -7,7 +7,7 @@
 
 	<uses-sdk
 		android:minSdkVersion="11"
-		android:targetSdkVersion="19" />
+		android:targetSdkVersion="25" />
 
 	<application
 		android:name="kk.piano.activity.App"

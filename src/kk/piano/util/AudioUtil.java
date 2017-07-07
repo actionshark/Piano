@@ -1,5 +1,7 @@
 package kk.piano.util;
 
+import com.stone.app.Setting;
+
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -9,12 +11,13 @@ public class AudioUtil {
 	
 	private static float sVolume;
 	
+	@SuppressWarnings("deprecation")
 	public static void init(Context context) {
 		if (sPool != null) {
 			return;
 		}
 		
-		sVolume = Setting.getFloat(Setting.KEY_VOLUME, 0.5f);
+		sVolume = Setting.getInstance().getFloat(Const.KEY_VOLUME, 0.5f);
 		
 		sPool = new SoundPool(6, AudioManager.STREAM_MUSIC, 0);
 	}
@@ -33,6 +36,6 @@ public class AudioUtil {
 	
 	public static void setVolume(float volume) {
 		sVolume = volume;
-		Setting.putFloat(Setting.KEY_VOLUME, sVolume);
+		Setting.getInstance().setFloat(Const.KEY_VOLUME, sVolume);
 	}
 }

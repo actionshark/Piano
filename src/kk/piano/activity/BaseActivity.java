@@ -1,5 +1,8 @@
 package kk.piano.activity;
 
+import com.stone.app.Res;
+import com.stone.app.Setting;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
@@ -8,10 +11,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout.LayoutParams;
-
-import kk.piano.util.AppUtil;
-import kk.piano.util.Setting;
+import android.widget.LinearLayout.LayoutParams;
+import kk.piano.util.Const;
 
 public abstract class BaseActivity extends Activity {
 	protected View mStatusBar;
@@ -25,8 +26,8 @@ public abstract class BaseActivity extends Activity {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
 			mStatusBar = new View(this);
-			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, AppUtil
-				.getStatusBarHeight());
+			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
+					Res.getInstance().getStatusBarHeight());
 			params.gravity = Gravity.TOP;
 			mStatusBar.setLayoutParams(params);
 			mStatusBar.setBackgroundColor(0xcccccc);
@@ -35,7 +36,7 @@ public abstract class BaseActivity extends Activity {
 			decor.addView(mStatusBar);
 		}
 		
-		if (Setting.getBoolean(Setting.KEY_SHOW_STATUS, false) == false) {
+		if (Setting.getInstance().getBoolean(Const.KEY_SHOW_STATUS, false) == false) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			
