@@ -20,7 +20,6 @@ import java.util.List;
 
 import com.stone.app.Res;
 import com.stone.app.Setting;
-import com.stone.log.Logger;
 import com.stone.thread.ThreadHandler;
 import com.stone.thread.ThreadParams;
 import com.stone.thread.ThreadUtil;
